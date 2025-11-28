@@ -1,0 +1,11 @@
+# Example vault file. Rename to `vault.yml` and encrypt with ansible-vault.
+# Contains sensitive variables like Docker Hub password.
+
+# Example (do NOT commit the real file; use ansible-vault to encrypt):
+# dockerhub_password: "your_dockerhub_password_here"
+
+# To encrypt and create `vault.yml`:
+# ansible-vault encrypt_string 'your_dockerhub_password_here' --name 'dockerhub_password' > vault.yml
+
+# Or create a plain `vault.yml` and run:
+# ansible-vault encrypt vault.yml
