@@ -1,0 +1,11 @@
+# Variables for Ansible playbook
+# IMPORTANT: Do not store secrets in plaintext in production. Use Ansible Vault.
+
+dockerhub_user: "ram1215"
+dockerhub_password: "CHANGE_ME"   # replace or use ansible-vault
+backend_tag: "latest"
+frontend_tag: "latest"
+backend_build_path: "..\TBP Back\demo"      # relative to ansible directory
+frontend_build_path: "..\TBP-main"          # relative to ansible directory
+k8s_manifests_path: "..\kubernetes"
+kubeconfig: "~/.kube/config"
