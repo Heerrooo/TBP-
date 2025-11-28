@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: tbp-db
+    environment:
+      MYSQL_ROOT_PASSWORD: 2300032364
+      MYSQL_DATABASE: demo_db
+      MYSQL_USER: tbpuser
+      MYSQL_PASSWORD: tbppass
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p2300032364"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+    networks:
+      - tbp-network
+    # Uncomment to expose MySQL to host if needed:
+    # ports:
+    #   - "3306:3306"
+
+  backend:
+    build: ./TBP Back/demo
+    image: ram1215/tbp-backend:latest
+    container_name: tbp-backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SERVER_PORT: 8081
+      DB_USER: root
+      DB_PASSWORD: 2300032364
+      JWT_SECRET: MySuperSecretKey12345ForDockerEnvironment
+      JWT_EXPIRATION: 3600000
+    ports:
+      - "8081:8081"   # host:container
+    restart: unless-stopped
+    networks:
+      - tbp-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8081/actuator/health", "||", "exit", "1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  frontend:
+    build: ./TBP-main
+    image: ram1215/tbp-frontend:latest
+    container_name: tbp-frontend
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"     # host:container
+    restart: unless-stopped
+    networks:
+      - tbp-network
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+
+volumes:
+  mysql_data: {}
+
+networks:
+  tbp-network:
+    driver: bridge

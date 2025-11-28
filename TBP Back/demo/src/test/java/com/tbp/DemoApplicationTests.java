@@ -1,0 +1,13 @@
+package com.tbp;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class DemoApplicationTests {
+
+    @Test
+    void contextLoads() {
+        // Just checks if the application context starts
+    }
+}

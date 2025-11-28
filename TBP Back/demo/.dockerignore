@@ -1,0 +1,41 @@
+# Build artifacts
+target/
+*.jar
+*.war
+*.ear
+
+# Maven
+.m2/
+.mvn/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Version control
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+README.md
+HELP.md
+*.md
+
+# Logs
+*.log
+logs/
+
+# Others
+.classpath
+.project
+.settings/
+*.class
+*.properties.local
